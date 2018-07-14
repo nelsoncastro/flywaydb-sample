@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>br.com.programmerinaction</groupId>
+    <artifactId>pia-flywaydb-sample</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>PIA Flywaydb sample</name>
+
+    <scm>
+        <url>https://github.com/nelsoncastro/pia-flywaydb-sample</url>
+        <connection>scm:git:git://github.com/nelsoncastro/pia-flywaydb-sample.git</connection>
+        <developerConnection>scm:git:git@github.com:nelsoncastro/pia-flywaydb-sample.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>nelson.castro</id>
+            <email>nelsoncastro.developer@gmail.com</email>
+            <name>Nelson Castro</name>
+            <url>https://github.com/nelsoncastro</url>
+        </developer>
+    </developers>
+
+    <repositories>
+        <repository>
+            <id>jboss-nexus-repo</id>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>pia-repo</id>
+            <url>https://github.com/nelsoncastro/pia-repo/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <defaultGoal>package</defaultGoal>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+                <plugin>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-maven-plugin</artifactId>
+                    <version>5.1.4</version>
+                    <configuration>
+                        <driver>com.mysql.jdbc.Driver</driver>
+                        <url>jdbc:mysql://localhost/flywaydb</url>
+                        <user>root</user>
+                        <password>root</password>
+                        <table>SCHEMA_VERSION</table>
+                        <sqlMigrationSeparator>_</sqlMigrationSeparator>
+                        <locations>filesystem:${project.basedir}/migrations</locations>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>mysql</groupId>
+                            <artifactId>mysql-connector-java</artifactId>
+                            <version>5.1.6</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+        </plugins>
+    </build>
+
+    <properties>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+        <jdk.version>1.8</jdk.version>
+
+        <!-- Plugins Versions -->
+
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>2.3</maven-source-plugin.version>
+
+        <!-- Test Dependencies -->
+
+        <junit.version>5.1.0</junit.version>
+        <slf4j.version>1.7.25</slf4j.version>
+    </properties>
+
+
+</project>
