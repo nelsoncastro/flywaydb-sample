@@ -1,2 +1,2 @@
 # pia-flywaydb-sample
-Exemplo projeto maven utilizando Flywaydb
+This repository contains code related to use Flyway in Spring Boot.
